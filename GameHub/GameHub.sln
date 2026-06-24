@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameHub.UI", "GameHub.UI\GameHub.UI.csproj", "{8A7C889A-28E9-4969-A9A5-028DCB619C17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameHub.Infrastructure", "GameHub.Infrastructure\GameHub.Infrastructure.csproj", "{9DDA06EF-12B2-4C81-B539-8AB34E3039D7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8A7C889A-28E9-4969-A9A5-028DCB619C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A7C889A-28E9-4969-A9A5-028DCB619C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A7C889A-28E9-4969-A9A5-028DCB619C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A7C889A-28E9-4969-A9A5-028DCB619C17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DDA06EF-12B2-4C81-B539-8AB34E3039D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DDA06EF-12B2-4C81-B539-8AB34E3039D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DDA06EF-12B2-4C81-B539-8AB34E3039D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DDA06EF-12B2-4C81-B539-8AB34E3039D7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
