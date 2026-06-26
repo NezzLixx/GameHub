@@ -1,6 +1,14 @@
-﻿namespace GameHub.UI.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace GameHub.UI.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    public string Greeting { get; } = "Welcome to Avalonia!";
+    [ObservableProperty]
+    private ObservableObject _currentPage;
+
+    public MainWindowViewModel()
+    {
+        CurrentPage = new LoginViewModel(this);
+    }
 }
