@@ -8,6 +8,7 @@ using GameHub.UI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Microsoft.EntityFrameworkCore;
+using GameHub.Infrastructure.Services;
 
 namespace GameHub.UI;
 
@@ -27,6 +28,7 @@ public partial class App : Application
         services.AddDbContext<GameHubDbContext>();
         services.AddScoped<UserRepository>();
         services.AddScoped<GameRepository>();
+        services.AddSingleton<EmailService>();
 
         services.AddTransient<MainWindowViewModel>();
         

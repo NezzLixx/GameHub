@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using GameHub.Infrastructure.Entities;
+using GameHub.Infrastructure.Entity;
 using GameHub.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 

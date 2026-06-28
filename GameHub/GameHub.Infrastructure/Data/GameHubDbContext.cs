@@ -1,4 +1,4 @@
-﻿using GameHub.Infrastructure.Entities;
+﻿using GameHub.Infrastructure.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameHub.Infrastructure.Data;

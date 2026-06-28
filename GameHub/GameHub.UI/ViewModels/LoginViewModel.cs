@@ -12,14 +12,9 @@ public partial class LoginViewModel : ObservableObject
     private readonly UserRepository _userRepository;
     private readonly MainWindowViewModel _mainViewModel;
     
-    [ObservableProperty]
-    private string _email = string.Empty;
-    
-    [ObservableProperty]
-    private string _password = string.Empty;
-    
-    [ObservableProperty]
-    private string _errorMessage = string.Empty;
+    [ObservableProperty] private string _email = string.Empty;
+    [ObservableProperty] private string _password = string.Empty;
+    [ObservableProperty] private string _errorMessage = string.Empty;
 
 
     public LoginViewModel(MainWindowViewModel mainViewModel)
@@ -67,6 +62,6 @@ public partial class LoginViewModel : ObservableObject
     [RelayCommand]
     private void GoToRegister()
     {
-        
+        _mainViewModel.CurrentPage = new RegisterViewModel(_mainViewModel);
     }
 }
