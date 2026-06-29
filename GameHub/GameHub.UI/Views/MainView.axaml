@@ -1,0 +1,53 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:GameHub.UI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+             x:Class="GameHub.UI.Views.MainView"
+             x:DataType="vm:MainViewModel"
+             Background="#1b2838">
+
+    <Grid ColumnDefinitions="240, *">
+        
+        <Border Grid.Column="0" Background="#171a21" Padding="15">
+            <Grid RowDefinitions="Auto, *, Auto">
+                
+                <TextBlock Grid.Row="0" Text="GAMEHUB" FontSize="22" FontWeight="Black" 
+                           Foreground="#66c0f4" HorizontalAlignment="Center" Margin="0,10,0,25"/>
+
+                <StackPanel Grid.Row="1" Spacing="10">
+                    <Button Content="🎮 Каталог ігор" Command="{Binding GoToCatalogCommand}"
+                            Background="#2a475e" Foreground="#ffffff" HorizontalAlignment="Stretch" Padding="12,10" CornerRadius="4"/>
+                    
+                    <Button Content="📚 Моя бібліотека" Command="{Binding GoToLibraryCommand}"
+                            Background="Transparent" Foreground="#c7d5e0" HorizontalAlignment="Stretch" Padding="12,10" CornerRadius="4"/>
+                    
+                    <Button Content="📰 Ігрові новини" Command="{Binding GoToNewsCommand}"
+                            Background="Transparent" Foreground="#c7d5e0" HorizontalAlignment="Stretch" Padding="12,10" CornerRadius="4"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Spacing="15">
+                    
+                    <Border Background="#2a475e" CornerRadius="6" Padding="12">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="ПОГОДА НА ВУЛИЦІ:" FontSize="10" FontWeight="Bold" Foreground="#66c0f4"/>
+                            <TextBlock Text="{Binding WeatherText}" FontSize="14" FontWeight="SemiBold" Foreground="#ffffff"/>
+                            <TextBlock Text="{Binding WeatherRecommendation}" FontSize="11" Foreground="#a3cf06" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Button Content="🚪 Вийти" Command="{Binding LogoutCommand}"
+                            Background="#ff4d4d" Foreground="#ffffff" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Padding="8" CornerRadius="4"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="1" Padding="20" Background="#1b2838">
+            <Border Grid.Column="1" Padding="20" Background="#1b2838">
+                <ContentControl Content="{Binding CurrentTab}" />
+            </Border>
+        </Border>
+        
+    </Grid>
+</UserControl>

@@ -51,6 +51,7 @@ public partial class LoginViewModel : ObservableObject
             }
 
             ErrorMessage = $"Успішний вхід! Вітаємо, {user.Role} {user.Username}!";
+            _mainViewModel.CurrentPage = new MainViewModel(_mainViewModel);
         }
         catch (Exception ex)
         {

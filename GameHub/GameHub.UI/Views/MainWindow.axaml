@@ -9,10 +9,11 @@
         x:DataType="vm:MainWindowViewModel"
         Title="GameHub"
         WindowStartupLocation="CenterScreen"
-        Width="500" Height="600"
+        Width="1050" Height="650"
         Background="#1b2838">
 
     <Window.DataTemplates>
+        
         <DataTemplate DataType="{x:Type vm:LoginViewModel}">
             <views:LoginView/>
         </DataTemplate>
@@ -20,6 +21,15 @@
         <DataTemplate DataType="{x:Type vm:RegisterViewModel}">
             <views:RegisterView/>
         </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type vm:MainViewModel}">
+            <views:MainView/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type vm:CatalogViewModel}">
+            <views:CatalogView/>
+        </DataTemplate>
+        
     </Window.DataTemplates>
 
     <ContentControl Content="{Binding CurrentPage}" />
