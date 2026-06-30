@@ -6,8 +6,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GameHub.Infrastructure.Repositories;
+using GameHub.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GameHub.UI.ViewModels;
 
@@ -15,24 +18,20 @@ public partial class CatalogViewModel : ObservableObject
 {
     private readonly GameRepository _gameRepository;
     private readonly HttpClient _httpClient;
+    private MainViewModel? _mainViewModel;
 
     [ObservableProperty] private int _currentPage = 1;
     [ObservableProperty] private int _totalCount;
-    
     [ObservableProperty] private string _searchText = string.Empty;
-    
     [ObservableProperty] private int _selectedSortIndex = 0;
 
     public ObservableCollection<GenreUiModel> Genres { get; set; } = new();
-    
     [ObservableProperty] private GenreUiModel? _selectedGenre;
-
     public ObservableCollection<GameUiModel> Games { get; set; } = new();
-
+    
     public CatalogViewModel()
     {
-        var context = new Infrastructure.Data.GameHubDbContext();
-        _gameRepository = new GameRepository(context); 
+        _gameRepository = App.ServiceProvider.GetRequiredService<GameRepository>(); 
     
         _httpClient = new HttpClient();
         _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
@@ -40,11 +39,37 @@ public partial class CatalogViewModel : ObservableObject
         _ = LoadGenresAsync();
     }
 
+    public void Initialize(MainViewModel mainViewModel)
+    {
+        _mainViewModel = mainViewModel;
+    }
+
+    [RelayCommand]
+    private void OpenGameDetails(int gameId)
+    {
+        if (_mainViewModel != null)
+        {
+            _mainViewModel.CurrentTab = new GameDetailsViewModel(gameId, _mainViewModel);
+        }
+    }
+    
+    [ObservableProperty] private GameUiModel? _selectedGame;
+
+    partial void OnSelectedGameChanged(GameUiModel? value)
+    {
+        if (value != null && _mainViewModel != null)
+        {
+            _mainViewModel.CurrentTab = new GameDetailsViewModel(value.Id, _mainViewModel);
+        
+            SelectedGame = null;
+        }
+    }
+
     private async Task LoadGenresAsync()
     {
         try
         {
-            using var context = new Infrastructure.Data.GameHubDbContext();
+            using var context = new GameHubDbContext();
             var dbGenres = await context.Genres.AsNoTracking().ToListAsync();
 
             Genres.Clear();
@@ -59,23 +84,15 @@ public partial class CatalogViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Помилка завантаження жанрів: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"Помилка жанрів: {ex.Message}");
         }
     }
 
-    partial void OnSearchTextChanged(string value)
-    {
-        CurrentPage = 1;
-        _ = LoadPagedGamesAsync();
-    }
+    partial void OnSearchTextChanged(string value) => ResetAndLoad();
+    partial void OnSelectedSortIndexChanged(int value) => ResetAndLoad();
+    partial void OnSelectedGenreChanged(GenreUiModel? value) => ResetAndLoad();
 
-    partial void OnSelectedSortIndexChanged(int value)
-    {
-        CurrentPage = 1;
-        _ = LoadPagedGamesAsync();
-    }
-
-    partial void OnSelectedGenreChanged(GenreUiModel? value)
+    private void ResetAndLoad()
     {
         CurrentPage = 1;
         _ = LoadPagedGamesAsync();

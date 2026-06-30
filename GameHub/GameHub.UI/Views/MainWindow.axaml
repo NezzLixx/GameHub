@@ -30,6 +30,10 @@
             <views:CatalogView/>
         </DataTemplate>
         
+        <DataTemplate DataType="{x:Type vm:GameDetailsViewModel}">
+            <views:GameDetailsView/>
+        </DataTemplate>
+        
     </Window.DataTemplates>
 
     <ContentControl Content="{Binding CurrentPage}" />

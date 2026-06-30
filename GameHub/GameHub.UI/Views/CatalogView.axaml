@@ -10,11 +10,9 @@
     <Grid RowDefinitions="Auto, *, Auto">
         
         <StackPanel Grid.Row="0" Margin="20,15,20,10">
-            
             <TextBlock Text="КАТАЛОГ ІГОР" FontSize="24" FontWeight="Bold" Foreground="#ffffff" Margin="0,0,0,12"/>
             
             <Grid ColumnDefinitions="*, Auto, Auto">
-                
                 <TextBox Grid.Column="0" Watermark="Пошук гри за назвою..." 
                          Text="{Binding SearchText, Mode=TwoWay}" 
                          HorizontalAlignment="Stretch" Margin="0,0,15,0"
@@ -22,10 +20,11 @@
                 
                 <ComboBox Grid.Column="1" ItemsSource="{Binding Genres}" 
                           SelectedItem="{Binding SelectedGenre, Mode=TwoWay}"
-                          Width="180" Margin="0,0,15,0" Background="#1b2838" Foreground="White"/>
+                          Width="180" Margin="0,0,15,0"
+                          Background="#1b2838" Foreground="White" BorderBrush="#2a475e"/>
                 
                 <ComboBox Grid.Column="2" SelectedIndex="{Binding SelectedSortIndex, Mode=TwoWay}" 
-                          Width="180" Background="#1b2838" Foreground="White">
+                          Width="180" Background="#1b2838" Foreground="White" BorderBrush="#2a475e">
                     <ComboBoxItem Content="За замовчуванням"/>
                     <ComboBoxItem Content="Назва (А-Я)"/>
                     <ComboBoxItem Content="Назва (Я-А)"/>
@@ -33,10 +32,14 @@
             </Grid>
         </StackPanel>
 
-        <ListBox Grid.Row="1" ItemsSource="{Binding Games}" Background="Transparent" BorderThickness="0" Margin="10,0">
+        <ListBox Grid.Row="1" 
+                 ItemsSource="{Binding Games}" 
+                 SelectedItem="{Binding SelectedGame, Mode=TwoWay}"
+                 Background="Transparent" Margin="10,0">
+            
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="3" Columns="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                    <UniformGrid Columns="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
 

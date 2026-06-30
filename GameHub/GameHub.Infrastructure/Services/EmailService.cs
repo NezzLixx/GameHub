@@ -6,11 +6,14 @@ using MimeKit;
 
 namespace GameHub.Infrastructure.Services;
 
+// Сервіс для роботи з мережевими протоколами SMTP (відправка Email через MailKit)
 public class EmailService
 {
+    // Дані авторизації поштового сервера
     private const string SenderEmail = "n.nezzlixx@gmail.com";
-    private const string AppPassword = "phwjmzxyoltuqgqc";
+    private const string AppPassword = "phwjmzxyoltuqgqc"; // Секретний пароль додатків Google
     
+    // Асинхронний метод генерації та надсилання привітального HTML-листа
     public async Task SendWelcomeEmailAsync(string targetEmail, string username)
     {
         var message = new MimeMessage();
@@ -18,6 +21,7 @@ public class EmailService
         message.To.Add(new MailboxAddress(username, targetEmail));
         message.Subject = "Ласкаво просимо до GameHub! 🎮";
 
+        // Формування HTML структури листа із CSS стилями
         var bodyBuilder = new BodyBuilder
         {
             HtmlBody = $@"
@@ -34,9 +38,9 @@ public class EmailService
                     </p>
                 </div>"
         };
-
         message.Body = bodyBuilder.ToMessageBody();
 
+        // Мережеве підключення до сервера Google та безпосередня відправка
         using var client = new SmtpClient();
         try
         {
@@ -51,6 +55,7 @@ public class EmailService
         }
         finally
         {
+            // Обов'язкове закриття SMTP сесії
             await client.DisconnectAsync(true);
         }
     }

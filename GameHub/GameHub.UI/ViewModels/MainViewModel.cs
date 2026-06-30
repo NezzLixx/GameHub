@@ -3,45 +3,48 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace GameHub.UI.ViewModels;
 
+// Логіка головної робочої зони додатку (після авторизації)
 public partial class MainViewModel : ObservableObject
 {
     private readonly MainWindowViewModel _mainWindowViewModel;
 
-    [ObservableProperty]
-    private object _currentTab = null!;
+    // Поточна відкрита вкладка (Каталог, Бібліотека тощо)
+    [ObservableProperty] private object _currentTab = null!;
 
-    [ObservableProperty]
-    private string _weatherText = "Завантаження погоди...";
-
-    [ObservableProperty]
-    private string _weatherRecommendation = "--------------";
+    // Тексти для майбутнього блоку віджета погоди
+    [ObservableProperty] private string _weatherText = "Завантаження погоди...";
+    [ObservableProperty] private string _weatherRecommendation = "--------------";
 
     public MainViewModel(MainWindowViewModel mainWindowViewModel)
     {
         _mainWindowViewModel = mainWindowViewModel;
-        GoToCatalog();
-        
-        // TODO: Сюди ми потім вставимо асинхронний виклик завантаження погоди
+        GoToCatalog(); // При старті відкриваємо каталог за замовчуванням
     }
     
+    // Перемикання вкладки на Каталог ігор
     [RelayCommand]
     private void GoToCatalog()
     {
-        CurrentTab = new CatalogViewModel();
+        var catalog = new CatalogViewModel();
+        catalog.Initialize(this);
+        CurrentTab = catalog;
     }
 
+    // Перемикання вкладки на Особисту бібліотеку
     [RelayCommand]
     private void GoToLibrary()
     {
-        // TODO Сюди підставимо ViewModel особистої бібліотеки
+        // TODO: ViewModel особистої бібліотеки
     }
 
+    // Перемикання вкладки на Новини
     [RelayCommand]
     private void GoToNews()
     {
-        // TODO Сюди підставимо Новини ігор
+        // TODO: ViewModel Новин ігор
     }
 
+    // Кнопка виходу з акаунту (повертає на вікно Login)
     [RelayCommand]
     private void Logout()
     {

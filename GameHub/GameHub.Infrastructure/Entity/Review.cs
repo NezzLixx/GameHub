@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace GameHub.Infrastructure.Entity;
 
@@ -15,5 +14,7 @@ public class Review
     
     public string ReviewText { get; set; } = string.Empty;
     public int Rating { get; set; }
-    public DateTime CreatedAt { get; set; } =  DateTime.UtcNow;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public byte[]? AttachedImageData { get; set; } 
 }

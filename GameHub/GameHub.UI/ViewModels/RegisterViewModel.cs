@@ -10,12 +10,14 @@ using GameHub.Infrastructure.Services;
 
 namespace GameHub.UI.ViewModels;
 
+// Логіка форми створення нового акаунта (Реєстрація)
 public partial class RegisterViewModel : ObservableObject
 {
     private readonly UserRepository _userRepository;
     private readonly MainWindowViewModel _mainViewModel;
     private readonly EmailService _emailService;
     
+    // Поля форми реєстрації
     [ObservableProperty] private string _email = string.Empty; 
     [ObservableProperty] private string _username = string.Empty;
     [ObservableProperty] private string _password = string.Empty;
@@ -29,11 +31,13 @@ public partial class RegisterViewModel : ObservableObject
         _emailService = App.ServiceProvider.GetRequiredService<EmailService>();
     }
 
+    // Команда реєстрації користувача
     [RelayCommand]
     private async Task RegisterAsync()
     {
         ErrorMessage = string.Empty;
 
+        // 1. Валідація: Чи всі поля заповнені
         if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Username) 
         || string.IsNullOrWhiteSpace(Password) || string.IsNullOrWhiteSpace(ConfirmPassword))
         {
@@ -41,6 +45,7 @@ public partial class RegisterViewModel : ObservableObject
             return;
         }
         
+        // 2. Валідація: Перевірка формату Email через регулярний вираз
         string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
         if (!Regex.IsMatch(Email, emailPattern))
         {
@@ -48,6 +53,7 @@ public partial class RegisterViewModel : ObservableObject
             return;
         }
 
+        // 3. Валідація: Збіг паролів
         if (Password != ConfirmPassword)
         {
             ErrorMessage = "Паролі не збігаються.";
@@ -56,6 +62,7 @@ public partial class RegisterViewModel : ObservableObject
 
         try
         {
+            // 4. Перевірка: Чи вільний Email в БД
             var existingUser = await _userRepository.GetByEmailAsync(Email);
             if (existingUser != null)
             {
@@ -63,24 +70,21 @@ public partial class RegisterViewModel : ObservableObject
                 return;
             }
             
+            // 5. Створення сутності і збереження в SQLite
             var newUser = new User
             {
                 Email = Email,
                 Username = Username,
-                PasswordHash = Password,
+                PasswordHash = GameHub.Infrastructure.Services.PasswordHasher.HashPassword(Password),
                 Role = "User"
             };
-            
             await _userRepository.AddAsync(newUser);
             
+            // 6. Надсилання привітального листа на Email через MailKit
             await _emailService.SendWelcomeEmailAsync(Email, Username);
             
             ErrorMessage = "Реєстрація успішна! Тепер ви можете увійти.";
-            
-            Email = string.Empty;
-            Username = string.Empty;
-            Password = string.Empty;
-            ConfirmPassword = string.Empty;
+            ClearForm();
         }
         catch (Exception ex)
         {
@@ -88,6 +92,16 @@ public partial class RegisterViewModel : ObservableObject
         }
     }
 
+    // Очищення полів форми
+    private void ClearForm()
+    {
+        Email = string.Empty;
+        Username = string.Empty;
+        Password = string.Empty;
+        ConfirmPassword = string.Empty;
+    }
+
+    // Повернення на сторінку входу
     [RelayCommand]
     private void GoToLogin()
     {

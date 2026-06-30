@@ -39,7 +39,14 @@ public partial class App : Application
             var context = scope.ServiceProvider.GetRequiredService<GameHubDbContext>();
             context.Database.Migrate();
         }
-
+        
+        using (var context = new GameHub.Infrastructure.Data.GameHubDbContext())
+        {
+            context.Database.Migrate();
+        
+            GameHub.Infrastructure.Data.DbInitializer.Seed(context); 
+        }
+        
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow
@@ -47,6 +54,7 @@ public partial class App : Application
                 DataContext = ServiceProvider.GetRequiredService<MainWindowViewModel>()
             };
         }
+        
         base.OnFrameworkInitializationCompleted();
     }
 }
